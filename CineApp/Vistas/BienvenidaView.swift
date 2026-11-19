@@ -1,6 +1,10 @@
 import SwiftUI
 
-struct SplashView: View {
+struct BienvenidaView: View {
+    // @Binding: el valor pertenece a ContentView; al cambiarlo aquí,
+    // ContentView reemplaza esta pantalla por la Cartelera.
+    @Binding var mostrarCartelera: Bool
+
     var body: some View {
         ZStack {
             // El fondo ignora el área segura para cubrir toda la pantalla.
@@ -18,11 +22,22 @@ struct SplashView: View {
                     .font(.largeTitle)
                     .bold()
                     .foregroundStyle(.white)
+
+                Button("Ingresar") {
+                    mostrarCartelera = true
+                }
+                .font(.headline)
+                .foregroundStyle(.red)
+                .padding(.horizontal, 40)
+                .padding(.vertical, 12)
+                .background(.white)
+                .clipShape(Capsule())
+                .padding(.top, 24)
             }
         }
     }
 }
 
 #Preview {
-    SplashView()
+    BienvenidaView(mostrarCartelera: .constant(false))
 }

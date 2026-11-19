@@ -8,8 +8,8 @@ struct RegistroView: View {
     @State private var titulo = ""
     // String porque el TextField trabaja con texto; se convierte a Int al validar.
     @State private var duracion = ""
+    // Vacío cuando no hay error; si tiene texto, se muestra debajo de los campos.
     @State private var mensajeError = ""
-    @State private var mostrarAlerta = false
 
     // Se ignoran los espacios al inicio y al final antes de validar y guardar.
     private var tituloLimpio: String {
@@ -25,17 +25,17 @@ struct RegistroView: View {
             TextField("Ingresar título", text: $titulo)
             TextField("Duración en minutos", text: $duracion)
                 .keyboardType(.numberPad)
+
+            if !mensajeError.isEmpty {
+                Text(mensajeError)
+                    .foregroundStyle(.red)
+            }
         }
         .navigationTitle("Nueva película")
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button("Guardar", action: guardar)
             }
-        }
-        .alert("Datos incorrectos", isPresented: $mostrarAlerta) {
-            Button("Aceptar", role: .cancel) { }
-        } message: {
-            Text(mensajeError)
         }
     }
 
@@ -60,7 +60,6 @@ struct RegistroView: View {
     private func guardar() {
         if let error = validar() {
             mensajeError = error
-            mostrarAlerta = true
             return
         }
 

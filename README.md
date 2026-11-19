@@ -2,9 +2,9 @@
 
 > **Estado del repositorio.** El proyecto ya está desarrollado: abre `CineApp.xcodeproj` en Xcode 16 o posterior y ejecútalo en un simulador con iOS 17 o superior. El `.xcodeproj` se escribió a mano en Windows (carpetas sincronizadas, formato de Xcode 16) y **todavía no se ha compilado en una Mac**: el primer paso es compilarlo y corregir lo que Xcode reporte. La guía de sustentación está en [SUSTENTACION.md](SUSTENTACION.md).
 >
-> Lo que sigue es el enunciado original con el que se pidió el desarrollo.
+> Lo que sigue es el enunciado con el que se pidió el desarrollo.
 
-Instrucciones para que **Claude Code** desarrolle la solución de referencia del examen T1 del curso *Desarrollo de Aplicaciones Móviles II* (CIBERTEC). Es el modelo de corrección del docente: el código debe ser simple, claro y estar al nivel de los Temas 1 al 4 del curso.
+Instrucciones para que **Claude Code** desarrolle la solución de referencia del examen T1 del curso *Desarrollo de Aplicaciones Móviles II* (CIBERTEC). Es el modelo de corrección del docente: el código debe ser simple, claro y usar solo lo visto en clase (Temas 1 al 4).
 
 ## Antes de empezar (lo hace el docente)
 
@@ -20,6 +20,7 @@ Instrucciones para que **Claude Code** desarrolle la solución de referencia del
 - Solo **SwiftUI** con **Swift**; nada de UIKit, storyboards ni librerías externas.
 - Estado con **`@State`** y **`@Binding`**. **Sin ViewModel**: no usar `@Observable`, `ObservableObject`, `@StateObject`, `@EnvironmentObject` ni `@Environment` con objetos propios. La única excepción permitida es `@Environment(\.dismiss)`, que es un valor del sistema y no un objeto propio.
 - Navegación con **`NavigationStack`** (no `NavigationView`).
+- Solo lo visto en clase: **no usar** `.alert`, `.sheet`, `Picker`, `Toggle`, `Stepper`, `.task` ni `async/await`.
 - Sin persistencia: los datos viven en memoria.
 - Nombres de tipos, variables y textos de la interfaz **en español**. Comentarios breves que expliquen el *porqué*.
 - No modificar la configuración del proyecto (`.xcodeproj`) salvo agregar archivos. Si el proyecto usa carpetas sincronizadas (Xcode 16 o posterior), basta con crear los archivos en la carpeta `CineApp/`.
@@ -27,12 +28,12 @@ Instrucciones para que **Claude Code** desarrolle la solución de referencia del
 ## Flujo de la app
 
 ```
-Splash ──(2 s, automático)──▶ Cartelera ──(botón +)──▶ Registro
-                                  ▲                        │
-                                  └──── Guardar (dismiss) ─┘
+Bienvenida ──(botón Ingresar)──▶ Cartelera ──(botón +)──▶ Registro
+                                     ▲                        │
+                                     └──── Guardar (dismiss) ─┘
 ```
 
-Desde la Cartelera **no** se puede regresar al Splash.
+Desde la Cartelera **no** se puede regresar a la Bienvenida.
 
 ## Modelo
 
@@ -54,18 +55,19 @@ Datos iniciales (`static let ejemplos`):
 | Coco | 105 | sí |
 | El conjuro | 112 | no |
 
-## Pantalla 1: Splash (Pregunta 01, Maquetado)
+## Pantalla 1: Bienvenida (Pregunta 01, Maquetado)
 
 - Fondo **rojo** en toda la pantalla (`.ignoresSafeArea()`).
 - Ícono SF Symbol **`film.fill`**, blanco, **100 x 100**, centrado horizontal y verticalmente.
 - Texto **«Cine App»** debajo del ícono, blanco y en negrita.
-- Sin interacción. A los **2 segundos** pasa automáticamente a la Cartelera.
-- Implementación sugerida: en `ContentView`, un `@State private var mostrarSplash = true`; con `.task { try? await Task.sleep(for: .seconds(2)); mostrarSplash = false }` se muestra la Cartelera. Así el Splash no queda en la pila de navegación.
+- Botón **«Ingresar»** debajo del texto: texto rojo sobre fondo blanco en forma de cápsula.
+- Al presionar «Ingresar» se muestra la Cartelera.
+- Implementación: `ContentView` tiene `@State private var mostrarCartelera = false` y un `if/else` que muestra `CarteleraView` o `BienvenidaView(mostrarCartelera: $mostrarCartelera)`. `BienvenidaView` recibe el valor con `@Binding` y lo pone en `true` al presionar el botón. Como no se navega, la Bienvenida no queda en la pila y no se puede regresar a ella.
 
 ## Pantalla 2: Cartelera (Preguntas 02 y 03, Maquetado y Favoritos)
 
 - `NavigationStack` con título **«Cartelera»** y un botón **+** en la barra (`ToolbarItem` en `.topBarTrailing`) que navega al Registro.
-  - El botón es un **`NavigationLink`** con `Image(systemName: "plus")` como etiqueta y `RegistroView(peliculas: $peliculas)` como destino. No usar `.navigationDestination` ni `.sheet`.
+  - El botón es un **`NavigationLink`** con `Image(systemName: "plus")` como etiqueta y `RegistroView(peliculas: $peliculas)` como destino.
 - La vista es **dueña de los datos**: `@State private var peliculas = Pelicula.ejemplos`.
 - `List` con una fila por película (subvista `FilaPelicula`, que recibe la película con `let`):
   - Ícono SF Symbol `film`.
@@ -84,47 +86,50 @@ Datos iniciales (`static let ejemplos`):
 - `Form` con:
   - `TextField` **Título** (placeholder «Ingresar título»).
   - `TextField` **Duración** (placeholder «Duración en minutos», `.keyboardType(.numberPad)`), guardado como `String` en un `@State`.
+  - Debajo de los campos, el **mensaje de error en rojo**, solo si hay uno: `@State private var mensajeError = ""` y `if !mensajeError.isEmpty { Text(mensajeError).foregroundStyle(.red) }`.
 - Botón **«Guardar»** en la barra superior (`ToolbarItem(placement: .confirmationAction)`).
-- Al presionar «Guardar», primero quita los espacios al inicio y al final de ambos campos (`trimmingCharacters(in: .whitespaces)`). Todas las reglas se evalúan sobre esos textos recortados y la película se guarda con el título recortado.
-- Luego valida **en este orden** y se detiene en el primer error:
+- Al presionar «Guardar», valida **en este orden** y se detiene en el primer error:
 
-| # | Regla (sobre el texto recortado) | Mensaje de la alerta |
+| # | Regla | Mensaje de error |
 |---|---|---|
 | 1 | Título vacío | «Ingrese el título de la película.» |
 | 2 | Duración vacía | «Ingrese la duración de la película.» |
 | 3 | Título con menos de 2 caracteres | «El título debe tener al menos 2 caracteres.» |
 | 4 | Duración no numérica (`Int(texto) == nil`) o fuera de 60 a 240 | «La duración debe ser un número entre 60 y 240 minutos.» |
 
-Ejemplos: `"  a "` falla en la regla 3; `" "` en Duración falla en la regla 2; `" 90 "` es válida.
-
-- La alerta usa `.alert` de SwiftUI con el título **«Datos incorrectos»**, el mensaje de la regla y el botón **«Aceptar»**.
+- Si hay un error, se guarda en `mensajeError` y aparece debajo de los campos.
 - Si todo es válido: agrega la película (no favorita) a `peliculas` y llama a `dismiss()` para volver a la Cartelera.
 - Separar la validación en una función `validar() -> String?` que devuelva el mensaje de error o `nil`.
+- **Recomendado, no exigido al alumno:** quitar los espacios al inicio y al final con `trimmingCharacters(in: .whitespaces)` antes de validar, para que `"  a "` falle en la regla 3 y `" 90 "` sea válida. La solución de referencia lo hace; un alumno que valide solo con `isEmpty` no pierde puntos.
 
 ## Estructura de archivos
 
 ```
 CineApp/
 ├── CineAppApp.swift          (sin cambios)
-├── ContentView.swift         Splash → Cartelera
+├── ContentView.swift         Bienvenida → Cartelera (if/else)
 ├── Modelo/
 │   └── Pelicula.swift        struct + ejemplos
 └── Vistas/
-    ├── SplashView.swift
+    ├── BienvenidaView.swift
     ├── CarteleraView.swift   lista, swipe de favoritos y botón +
     ├── FilaPelicula.swift
-    └── RegistroView.swift    formulario y validaciones
+    └── RegistroView.swift    formulario, validaciones y mensaje de error
 ```
 
-Cada vista con su `#Preview`. Para el `@Binding`, usar `.constant(Pelicula.ejemplos)`.
+Cada vista con su `#Preview`. Para los `@Binding`, usar `.constant(...)`.
+
+## Launch screen (opcional, no se evalúa)
+
+La solución de referencia incluye una launch screen nativa roja (`UILaunchScreen` en `Info.plist`, color `FondoSplash`) para que no se vea blanco antes de la Bienvenida. No es parte del examen.
 
 ## Criterios de aceptación (rúbrica del examen)
 
-- [ ] **P01:** el Splash coincide con el prototipo y pasa solo a la Cartelera a los 2 s.
+- [ ] **P01:** la Bienvenida coincide con el prototipo y el botón «Ingresar» lleva a la Cartelera.
 - [ ] **P02:** la Cartelera muestra las 4 películas con título, duración y estrella.
 - [ ] **P03:** el swipe marca y desmarca favoritos, y la estrella aparece y desaparece.
-- [ ] **P04:** las 4 validaciones muestran su mensaje en la alerta; los datos válidos agregan la película.
-- [ ] **P05:** Splash → Cartelera → Registro → (Guardar) → Cartelera, con `NavigationStack` y `dismiss`.
+- [ ] **P04:** las 4 validaciones muestran su mensaje debajo de los campos; los datos válidos agregan la película.
+- [ ] **P05:** Bienvenida → Cartelera → Registro → (Guardar) → Cartelera, con `NavigationStack` y `dismiss`.
 - [ ] El proyecto compila sin errores ni advertencias en Xcode, con destino iOS 17.
 
 ## Al terminar
