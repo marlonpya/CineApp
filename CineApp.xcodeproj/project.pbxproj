@@ -6,6 +6,113 @@
 	objectVersion = 77;
 	objects = {
 
+
+/* Begin CineAppUITests */
+		C1A0000000000000000000C1 /* CineAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CineAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1A0000000000000000000C2 /* CineAppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CineAppUITests;
+			sourceTree = "<group>";
+		};
+		C1A0000000000000000000C3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C1A0000000000000000000C4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C1A0000000000000000000C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C1A0000000000000000000C6 /* CineAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C1A0000000000000000000C9 /* Build configuration list for PBXNativeTarget "CineAppUITests" */;
+			buildPhases = (
+				C1A0000000000000000000C4 /* Sources */,
+				C1A0000000000000000000C3 /* Frameworks */,
+				C1A0000000000000000000C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C1A0000000000000000000C8 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C1A0000000000000000000C2 /* CineAppUITests */,
+			);
+			name = CineAppUITests;
+			packageProductDependencies = (
+			);
+			productName = CineAppUITests;
+			productReference = C1A0000000000000000000C1 /* CineAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		C1A0000000000000000000C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C1A0000000000000000000A9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C1A0000000000000000000A6;
+			remoteInfo = CineApp;
+		};
+		C1A0000000000000000000C8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C1A0000000000000000000A6 /* CineApp */;
+			targetProxy = C1A0000000000000000000C7 /* PBXContainerItemProxy */;
+		};
+		C1A0000000000000000000C9 /* Build configuration list for PBXNativeTarget "CineAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C1A0000000000000000000CA /* Debug */,
+				C1A0000000000000000000CB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C1A0000000000000000000CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = pe.edu.cibertec.CineAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CineApp;
+			};
+			name = Debug;
+		};
+		C1A0000000000000000000CB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = pe.edu.cibertec.CineAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CineApp;
+			};
+			name = Release;
+		};
+/* End CineAppUITests */
+
 /* Begin PBXFileReference section */
 		C1A0000000000000000000A1 /* CineApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CineApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -33,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				C1A0000000000000000000A2 /* CineApp */,
+				C1A0000000000000000000C2 /* CineAppUITests */,
 				C1A0000000000000000000A5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				C1A0000000000000000000A1 /* CineApp.app */,
+				C1A0000000000000000000C1 /* CineAppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -83,6 +192,10 @@
 					C1A0000000000000000000A6 = {
 						CreatedOnToolsVersion = 16.0;
 					};
+					C1A0000000000000000000C6 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = C1A0000000000000000000A6;
+					};
 				};
 			};
 			buildConfigurationList = C1A0000000000000000000AF /* Build configuration list for PBXProject "CineApp" */;
@@ -100,6 +213,7 @@
 			projectRoot = "";
 			targets = (
 				C1A0000000000000000000A6 /* CineApp */,
+				C1A0000000000000000000C6 /* CineAppUITests */,
 			);
 		};
 /* End PBXProject section */

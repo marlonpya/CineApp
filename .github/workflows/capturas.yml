@@ -1,0 +1,39 @@
+# Ejecuta la app en un simulador de iPhone y guarda capturas de cada pantalla
+# y de cada caso de validación (rama capturas). Las imágenes se usan en el README.
+name: Capturas
+
+on:
+  push:
+    branches: [capturas]
+  workflow_dispatch:
+
+jobs:
+  capturas:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Preparar el simulador
+        run: |
+          xcrun simctl boot "iPhone 16"
+          UDID=$(xcrun simctl list devices booted | grep -oE '[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}' | head -1)
+          echo "UDID=$UDID" >> "$GITHUB_ENV"
+          xcrun simctl bootstatus "$UDID" -b
+          xcrun simctl status_bar "$UDID" override --time "9:41" --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularBars 4
+
+      - name: Ejecutar el recorrido y tomar capturas
+        run: |
+          xcodebuild test             -project CineApp.xcodeproj             -scheme CineApp             -destination "id=$UDID"             -resultBundlePath Resultado.xcresult             CODE_SIGNING_ALLOWED=NO
+
+      - name: Exportar las capturas
+        if: always()
+        run: |
+          mkdir -p capturas
+          xcrun xcresulttool export attachments --path Resultado.xcresult --output-path capturas
+          ls -la capturas
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: capturas
+          path: capturas
