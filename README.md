@@ -35,6 +35,58 @@ Bienvenida ──(botón Ingresar)──▶ Cartelera ──(botón +)──▶ 
 
 Desde la Cartelera no se puede regresar a la Bienvenida.
 
+## Cómo se ve la app
+
+Capturas reales de este proyecto ejecutándose en un simulador de iPhone 16. Se generan automáticamente con un recorrido de prueba que pasa por cada pantalla y cada caso.
+
+### Pantallas
+
+<table>
+<tr>
+<td align="center" valign="top"><img src="capturas/01-bienvenida.png" width="200" alt="1. Bienvenida"><br><b>1. Bienvenida</b><br><sub>P01: fondo rojo, ícono, texto y botón</sub></td>
+<td align="center" valign="top"><img src="capturas/02-cartelera.png" width="200" alt="2. Cartelera"><br><b>2. Cartelera</b><br><sub>P02: 4 películas, estrella en favoritas</sub></td>
+<td align="center" valign="top"><img src="capturas/06-registro.png" width="200" alt="3. Registro"><br><b>3. Registro</b><br><sub>P04: título, duración y Guardar</sub></td>
+</tr>
+</table>
+
+### Favoritos con swipe (P03)
+
+<table>
+<tr>
+<td align="center" valign="top"><img src="capturas/03-swipe-favorito.png" width="200" alt="Deslizar «Gladiador»"><br><b>Deslizar «Gladiador»</b><br><sub>No es favorita: botón amarillo</sub></td>
+<td align="center" valign="top"><img src="capturas/04-gladiador-favorito.png" width="200" alt="Después de tocarlo"><br><b>Después de tocarlo</b><br><sub>Aparece la estrella</sub></td>
+<td align="center" valign="top"><img src="capturas/05-swipe-quitar.png" width="200" alt="Deslizar «Toy Story»"><br><b>Deslizar «Toy Story»</b><br><sub>Ya es favorita: botón gris para quitar</sub></td>
+</tr>
+</table>
+
+> En iOS, un botón de swipe con texto e ícono (`Button("Favorito", systemImage: "star")`) muestra **solo el ícono**. El texto «Favorito» o «Quitar» queda como nombre del botón para la accesibilidad; no es un error.
+
+### Casos de validación (P04)
+
+<table>
+<tr>
+<td align="center" valign="top"><img src="capturas/07-error-titulo-vacio.png" width="200" alt="Regla 1"><br><b>Regla 1</b><br><sub>Título vacío, duración 120</sub></td>
+<td align="center" valign="top"><img src="capturas/08-error-duracion-vacia.png" width="200" alt="Regla 2"><br><b>Regla 2</b><br><sub>Título «Coco», duración vacía</sub></td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td align="center" valign="top"><img src="capturas/09-error-titulo-corto.png" width="200" alt="Regla 3"><br><b>Regla 3</b><br><sub>Título «A», duración 120</sub></td>
+<td align="center" valign="top"><img src="capturas/10-error-duracion-rango.png" width="200" alt="Regla 4"><br><b>Regla 4</b><br><sub>Título «Up», duración 45</sub></td>
+</tr>
+</table>
+
+### Datos válidos (P04 y P05)
+
+<table>
+<tr>
+<td align="center" valign="top"><img src="capturas/11-datos-validos.png" width="200" alt="Antes de Guardar"><br><b>Antes de Guardar</b><br><sub>Título «Up», duración 96</sub></td>
+<td align="center" valign="top"><img src="capturas/12-pelicula-agregada.png" width="200" alt="Después de Guardar"><br><b>Después de Guardar</b><br><sub>Vuelve a la Cartelera con «Up» al final</sub></td>
+</tr>
+</table>
+
+
 ## Archivos
 
 ```
