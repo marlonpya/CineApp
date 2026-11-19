@@ -1,6 +1,14 @@
-# Cine App: solución de referencia de la T1
+# Cine App: simulacro resuelto de la T1
 
-> **Estado del repositorio.** El proyecto ya está desarrollado: abre `CineApp.xcodeproj` en Xcode 16 o posterior y ejecútalo en un simulador con iOS 17 o superior. El `.xcodeproj` se escribió a mano en Windows (carpetas sincronizadas, formato de Xcode 16) y **todavía no se ha compilado en una Mac**: el primer paso es compilarlo y corregir lo que Xcode reporte. La guía de sustentación está en [SUSTENTACION.md](SUSTENTACION.md).
+> **Simulacro.** Esta app es el simulacro de la primera evaluación (T1) de *Desarrollo de Aplicaciones Móviles II* (CIBERTEC). Los exámenes reales tienen la misma estructura y rúbrica, con otro tema.
+>
+> - Enunciado del simulacro: [simulacro/Simulacro_T1_CineApp.pdf](simulacro/Simulacro_T1_CineApp.pdf)
+> - Solución explicada paso a paso: [simulacro/Simulacro_T1_CineApp_resuelto.pdf](simulacro/Simulacro_T1_CineApp_resuelto.pdf)
+> - Guía para la sustentación oral: [SUSTENTACION.md](SUSTENTACION.md)
+>
+> Intenta resolverlo primero sin mirar el código.
+
+> **Estado del repositorio.** El proyecto ya está desarrollado: abre `CineApp.xcodeproj` en Xcode 16 o posterior y ejecútalo en un simulador con iOS 17 o superior. El `.xcodeproj` se escribió a mano en Windows (carpetas sincronizadas, formato de Xcode 16) y **todavía no se ha compilado en una Mac**: el primer paso es compilarlo y corregir lo que Xcode reporte. 
 >
 > Lo que sigue es el enunciado con el que se pidió el desarrollo.
 
