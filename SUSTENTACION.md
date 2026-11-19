@@ -29,7 +29,3 @@
 
 5. **¿Cómo regresa el Registro a la Cartelera después de guardar?**
    Llama a `dismiss()`, que obtiene de `@Environment(\.dismiss)`. Esto quita el Registro de la pila del `NavigationStack` y vuelve a la Cartelera, que ya muestra la nueva película gracias al `@Binding`.
-
-## Nota: launch screen nativa (no se evalúa)
-
-Antes de la Bienvenida, iOS muestra la launch screen nativa mientras la app carga. Aquí se configura con `UILaunchScreen` en el `Info.plist` (en la raíz del repositorio) y el color `FondoSplash`, que tiene los mismos valores que `Color.red`. Así no se ve un destello blanco antes de la Bienvenida roja. No se vio en clase y no forma parte del examen.
