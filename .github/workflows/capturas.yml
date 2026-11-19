@@ -15,19 +15,15 @@ jobs:
 
       - name: Preparar el simulador
         run: |
-          xcrun simctl list devices available | grep -i iphone
           xcrun simctl boot "iPhone 16"
-          xcrun simctl bootstatus "iPhone 16" -b
-          xcrun simctl status_override "iPhone 16" --time "9:41" --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularBars 4
+          UDID=$(xcrun simctl list devices booted | grep -oE '[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}' | head -1)
+          echo "UDID=$UDID" >> "$GITHUB_ENV"
+          xcrun simctl bootstatus "$UDID" -b
+          xcrun simctl status_override "$UDID" --time "9:41" --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularBars 4
 
       - name: Ejecutar el recorrido y tomar capturas
         run: |
-          xcodebuild test \
-            -project CineApp.xcodeproj \
-            -scheme CineApp \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
-            -resultBundlePath Resultado.xcresult \
-            CODE_SIGNING_ALLOWED=NO
+          xcodebuild test             -project CineApp.xcodeproj             -scheme CineApp             -destination "id=$UDID"             -resultBundlePath Resultado.xcresult             CODE_SIGNING_ALLOWED=NO
 
       - name: Exportar las capturas
         if: always()
