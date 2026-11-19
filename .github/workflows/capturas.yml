@@ -1,10 +1,14 @@
 # Ejecuta la app en un simulador de iPhone y guarda capturas de cada pantalla
-# y de cada caso de validación (rama capturas). Las imágenes se usan en el README.
+# y de cada caso de validación. Las imágenes se usan en el README.
+# Corre cuando cambia el código de la app o del recorrido, o a mano desde Actions.
 name: Capturas
 
 on:
   push:
-    branches: [capturas]
+    branches: [main]
+    paths:
+      - 'CineApp/**'
+      - 'CineAppUITests/**'
   workflow_dispatch:
 
 jobs:

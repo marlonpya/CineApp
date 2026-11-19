@@ -102,6 +102,8 @@ CineApp/
     └── RegistroView.swift    Preguntas 04 y 05: formulario, validaciones y dismiss
 ```
 
+La carpeta `CineAppUITests/` contiene el recorrido automático que toma las capturas de esta página. **No es parte del examen** ni hace falta para resolverlo: puedes ignorarla.
+
 ## Validaciones del Registro
 
 Se revisan en este orden y se muestra en rojo el mensaje de la primera que falla:
