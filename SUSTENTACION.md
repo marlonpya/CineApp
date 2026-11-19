@@ -12,6 +12,15 @@
 | `RegistroView` | `dismiss` | `@Environment(\.dismiss)` | Acción del sistema para volver a la pantalla anterior; no es un objeto propio. |
 | `FilaPelicula` | `pelicula` | `let` | Solo muestra datos, no los modifica. |
 
+## Launch screen nativa y Splash de SwiftUI
+
+La app tiene dos pantallas de arranque, una detrás de otra:
+
+1. **Launch screen nativa.** La muestra iOS mientras la app carga, antes de ejecutar código Swift. Se configura con la clave `UILaunchScreen` del `Info.plist` (en la raíz del repositorio), con `UIColorName = FondoSplash`. Ese color está en `Assets.xcassets` y tiene los mismos valores que `Color.red` del sistema, también en modo oscuro. No admite texto, código ni temporizador.
+2. **`SplashView` de SwiftUI.** Es la Pregunta 01 del examen: muestra el ícono y el texto, y a los 2 s pasa a la Cartelera.
+
+Como las dos tienen el mismo rojo, no se ve un destello blanco entre la launch screen y el Splash.
+
 ## Preguntas para la sustentación oral
 
 1. **¿Por qué la lista usa `@State` en la Cartelera y `@Binding` en el Registro?**
@@ -28,3 +37,6 @@
 
 5. **¿Cómo regresa el Registro a la Cartelera después de guardar?**
    Llama a `dismiss()`, que obtiene de `@Environment(\.dismiss)`. Esto quita el Registro de la pila del `NavigationStack` y vuelve a la Cartelera, que ya muestra la nueva película gracias al `@Binding`.
+
+6. **¿Cuál es la diferencia entre la launch screen y el `SplashView`?**
+   La launch screen es nativa: la muestra iOS mientras la app carga, se configura en el `Info.plist` y no admite código ni temporizador. El `SplashView` es una vista de SwiftUI que se muestra después, cuando la app ya está corriendo, y por eso puede esperar 2 segundos con `.task`.
